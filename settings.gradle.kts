@@ -6,3 +6,5 @@ pluginManagement {
   }
 }
 rootProject.name = "http"
+
+include("webflux")
