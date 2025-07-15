@@ -24,6 +24,8 @@ subprojects {
 
   dependencies {
     implementation("org.springframework.boot:spring-boot-starter-test")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
   }
 
   tasks.withType<Test> {
