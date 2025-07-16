@@ -1,14 +1,12 @@
 package com.fResult.http.customers
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Mono
+import java.net.URI
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/rc/customers")
 class CustomerController(private val repository: CustomerRepository) {
   @GetMapping
   fun all() = repository.findAll()
@@ -17,5 +15,6 @@ class CustomerController(private val repository: CustomerRepository) {
   fun byId(@PathVariable id: String) = repository.findById(id)
 
   @PostMapping
-  fun create(@RequestBody customer: Customer) = repository.save(customer)
+  fun create(@RequestBody customer: Customer): Mono<ResponseEntity<Customer>> = repository.save(customer)
+    .map { ResponseEntity.created(URI.create("/rc/customers/${it.id}")).body(it) }
 }
