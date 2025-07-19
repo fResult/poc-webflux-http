@@ -15,7 +15,7 @@
 #### GET `/rc/customers` - Retrieve all customers
 
 **Body Request:** N/A\
-**Body Response:** List of [`Customer`](./Customer.kt)\
+**Body Response:** List of [`Customer`][CustomerEntity]\
 **Response Status:** `200 OK` (if successful)
 
 **cUrl Example:**
@@ -29,10 +29,14 @@ curl localhost:8080/rc/customers
 #### GET `/fe/customers` - Retrieve all customers
 
 **Body Request:** N/A\
-**Body Response:** List of [`Customer`](./Customer.kt)\
+**Body Response:** List of [`Customer`][CustomerEntity]\
 **Response Status:** `200 OK` (if successful)
 
 **cUrl Example:**
+
 ```bash
 curl localhost:8080/fe/customers
 ```
+
+
+[CustomerEntity]: ./Customer.kt
