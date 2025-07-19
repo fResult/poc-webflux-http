@@ -20,6 +20,7 @@ class NestedFunctionalEndpointConfiguration {
       .nest(RequestPredicates.path("/nested")) { builder ->
         builder.nest(jsonRP) { nestedBuilder ->
           nestedBuilder.GET("/{pv}", nestedHandler::pathVariable)
+          nestedBuilder.GET("", nestedHandler::noPathVariable)
         }
       }.build()
   }
