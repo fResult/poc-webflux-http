@@ -81,6 +81,19 @@ curl localhost:8080/fe/customers
 
 ```bash
 curl localhost:8080/fe/customers/1
+
+#### POST `/fe/customers` - Create a new customer
+
+**Body Request:** [`Customer`][CustomerEntity]\
+**Body Response:** [`Customer`][CustomerEntity] (created customer)\
+**Response Status:** `201 Created` (if successful)
+
+**cUrl Example:**
+
+```bash
+curl -X POST localhost:8080/fe/customers \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Jane Doe"}'
 ```
 
 
