@@ -10,11 +10,13 @@ import reactor.kotlin.core.publisher.toMono
 @Configuration
 class SimpleFunctionalEndpointConfiguration {
   @Bean
-  fun simple(): RouterFunction<ServerResponse> =
+  fun simple(handler: GreetingsHandlerFunction): RouterFunction<ServerResponse> =
     RouterFunctions.route()
       .GET("/hello/{name}") { request ->
         request.pathVariable("name").toMono()
           .map { "Hello, $it" }
           .flatMap { ServerResponse.ok().bodyValue(it) }
-      }.build()
+      }
+      .GET("/hodor", handler)
+      .build()
 }
