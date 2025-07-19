@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.RouterFunctions
 import org.springframework.web.reactive.function.server.ServerResponse
+import reactor.kotlin.core.publisher.toMono
 
 @Configuration
 class SimpleFunctionalEndpointConfiguration {
@@ -12,8 +13,8 @@ class SimpleFunctionalEndpointConfiguration {
   fun simple(): RouterFunction<ServerResponse> =
     RouterFunctions.route()
       .GET("/hello/{name}") { request ->
-        val name = request.pathVariable("name")
-        val message = "Hello, $name!"
-        ServerResponse.ok().bodyValue(message)
+        request.pathVariable("name").toMono()
+          .map { "Hello, $it" }
+          .flatMap { ServerResponse.ok().bodyValue(it) }
       }.build()
 }
