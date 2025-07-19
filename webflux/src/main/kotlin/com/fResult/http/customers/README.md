@@ -39,6 +39,20 @@ curl localhost:8080/rc/customers
 curl localhost:8080/rc/customers/1
 ```
 
+#### POST `/rc/customers` - Create a new customer
+
+**Body Request:** [`Customer`][CustomerEntity]\
+**Body Response:** [`Customer`][CustomerEntity] (created customer)\
+**Response Status:** `201 Created` (if successful)
+
+**cUrl Example:**
+
+```bash
+curl -X POST localhost:8080/rc/customers \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Doe"}'
+```
+
 ### Functional Endpoints
 
 #### GET `/fe/customers` - Retrieve all customers
