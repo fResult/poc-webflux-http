@@ -15,6 +15,7 @@ class CustomerApiEndpointConfiguration {
       .nest(RequestPredicates.path("/fe/customers")) { builder ->
         builder.GET("", handler::handleFindAll)
         builder.GET("/{id}", handler::handleFindById)
+        builder.POST("", handler::handleCreate)
       }.build()
   }
 }
