@@ -7,7 +7,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/rc/customers")
-class CustomerController(private val repository: CustomerRepository) {
+class CustomerRestController(private val repository: CustomerRepository) {
   @GetMapping
   fun all() = repository.findAll()
 
