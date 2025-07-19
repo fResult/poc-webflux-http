@@ -37,7 +37,9 @@ private inline fun <reified T> listToOkResponse(responseBody: List<T>): Mono<Ser
 private inline fun <reified T> respondWithOkStreamBody(responseBody: Publisher<T>): Mono<ServerResponse> =
   ServerResponse.ok().body(responseBody, T::class.java)
 
-private inline fun <reified T : EntityObject> respondWithCreatedResponse(pathPrefix: String): (T) -> Mono<ServerResponse> = {
+private inline fun <reified T : EntityObject> respondWithCreatedResponse(
+  pathPrefix: String,
+): (T) -> Mono<ServerResponse> = {
   ServerResponse.created(URI.create("$pathPrefix/${it.id}")).bodyValue(it)
 }
 
