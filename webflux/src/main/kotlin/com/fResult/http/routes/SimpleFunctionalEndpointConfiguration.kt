@@ -18,5 +18,6 @@ class SimpleFunctionalEndpointConfiguration {
           .flatMap { ServerResponse.ok().bodyValue(it) }
       }
       .GET("/hodor", handler)
+      .GET("sup", handler::handle)
       .build()
 }
