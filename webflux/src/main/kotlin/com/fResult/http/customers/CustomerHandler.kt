@@ -6,8 +6,9 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.toMono
+import java.net.URI
 
 @Component
 class CustomerHandler(private val repository: CustomerRepository) {
@@ -21,6 +22,11 @@ class CustomerHandler(private val repository: CustomerRepository) {
       .let(repository::findById)
       .flatMap(ServerResponse.ok()::bodyValue)
       .switchIfEmpty(::respondNotFound)
+
+  fun handleCreate(request: ServerRequest): Mono<ServerResponse> =
+    request.bodyToMono(Customer::class.java)
+      .flatMap(repository::save)
+      .flatMap(respondWithCreatedResponse("/fe/customers"))
 }
 
 private inline fun <reified T> listToOkResponse(responseBody: List<T>): Mono<ServerResponse> =
@@ -30,5 +36,9 @@ private inline fun <reified T> listToOkResponse(responseBody: List<T>): Mono<Ser
 
 private inline fun <reified T> respondWithOkStreamBody(responseBody: Publisher<T>): Mono<ServerResponse> =
   ServerResponse.ok().body(responseBody, T::class.java)
+
+private inline fun <reified T : EntityObject> respondWithCreatedResponse(pathPrefix: String): (T) -> Mono<ServerResponse> = {
+  ServerResponse.created(URI.create("$pathPrefix/${it.id}")).bodyValue(it)
+}
 
 private fun respondNotFound(): Mono<ServerResponse> = ServerResponse.notFound().build()
