@@ -53,5 +53,21 @@ curl localhost:8080/rc/customers/1
 curl localhost:8080/fe/customers
 ```
 
+#### GET `/fe/customers/{id}` - Retrieve a customer by ID
+
+**Body Request:** N/A\
+**Body Response:** [`Customer`][CustomerEntity]
+
+**Response Status:**
+
+- `200 OK` (if successful)
+- `404 Not Found` (if customer not found)
+
+**cUrl Example:**
+
+```bash
+curl localhost:8080/fe/customers/1
+```
+
 
 [CustomerEntity]: ./Customer.kt
