@@ -36,7 +36,7 @@ curl localhost:8080/rc/customers
 **cUrl Example:**
 
 ```bash
-curl localhost:8080/rc/customers/1
+curl localhost:8080/rc/customers/:id
 ```
 
 #### POST `/rc/customers` - Create a new customer
@@ -80,7 +80,8 @@ curl localhost:8080/fe/customers
 **cUrl Example:**
 
 ```bash
-curl localhost:8080/fe/customers/1
+curl localhost:8080/fe/customers/:id
+```
 
 #### POST `/fe/customers` - Create a new customer
 
