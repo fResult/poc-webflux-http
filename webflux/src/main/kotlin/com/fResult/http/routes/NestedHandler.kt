@@ -8,12 +8,11 @@ import reactor.kotlin.core.publisher.toMono
 
 @Component
 class NestedHandler {
-  fun pathVariable(request: ServerRequest): Mono<ServerResponse> {
-    return request.pathVariable("pv").toMono()
+  fun pathVariable(request: ServerRequest): Mono<ServerResponse> =
+    request.pathVariable("pv").toMono()
       .map(::greet)
       .flatMap { ServerResponse.ok().bodyValue(it) }
-  }
 
-  private fun greet(name: String?): Map<String, String> =
+  private fun greet(name: String? = null): Map<String, String> =
     mapOf("message" to "Hello, ${name ?: "World"}!")
 }
