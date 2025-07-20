@@ -27,4 +27,20 @@ class CustomRoutePredicatesConfigurationTest {
     resultSpecForUpperCase.expectBody(String::class.java).value { assertEquals(expectedResult, it) }
     resultSpecForLowerCase.expectBody(String::class.java).value { assertEquals(expectedResult, it) }
   }
+
+  @Test
+  fun `test case sensitive request matching`() {
+    // Given
+    val uriWithBadQueryParam = "/test?uid=4&name=John"
+    val uri = "/test?uid=3&name=John"
+    val expectedGoodResult = "Hello, John!"
+
+    // When
+    val resultSpecForUpperCase = webTestClient.get().uri(uriWithBadQueryParam).exchange()
+    val resultSpecForLowerCase = webTestClient.get().uri(uri).exchange()
+
+    // Then
+    resultSpecForUpperCase.expectStatus().isNotFound()
+    resultSpecForLowerCase.expectBody(String::class.java).value { assertEquals(expectedGoodResult, it) }
+  }
 }
