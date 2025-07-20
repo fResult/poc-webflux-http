@@ -7,4 +7,6 @@ class CaseInsensitiveRequestPredicates(private val target: RequestPredicate) : R
   override fun test(request: ServerRequest): Boolean {
     return target.test(LowercaseUriServerRequestWrapper(request))
   }
+
+  override fun toString(): String = target.toString()
 }
