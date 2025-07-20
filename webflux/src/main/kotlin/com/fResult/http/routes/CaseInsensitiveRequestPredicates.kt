@@ -4,6 +4,10 @@ import org.springframework.web.reactive.function.server.RequestPredicate
 import org.springframework.web.reactive.function.server.ServerRequest
 
 class CaseInsensitiveRequestPredicates(private val target: RequestPredicate) : RequestPredicate {
+  companion object {
+    fun i(predicate: RequestPredicate) = CaseInsensitiveRequestPredicates(predicate)
+  }
+
   override fun test(request: ServerRequest): Boolean {
     return target.test(LowercaseUriServerRequestWrapper(request))
   }
