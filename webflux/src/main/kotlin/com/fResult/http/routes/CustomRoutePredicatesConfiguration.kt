@@ -16,7 +16,7 @@ class CustomRoutePredicatesConfiguration {
   val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
     request.queryParam("name")
       .toMono()
-      .map { "Hello, ${it.orElse(request.pathVariable("name"))}!" }
+      .map { "Hello, ${it.orElseGet { request.pathVariable("name") }}!" }
       .flatMap { ServerResponse.ok().bodyValue(it) }
   }
 
