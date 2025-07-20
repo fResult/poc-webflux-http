@@ -54,13 +54,44 @@ data:#11
 
 #### GET `/test`
 
+This route accepts query parameters `name` and `uid`.
+
+- The `uid` must be in `1`, `2`, or `3` only, otherwise it will return a 404 error.
+- The `name` is used in the response message
+
 ```shell
-curl localhost:8080/test?uid={{id}}
+curl localhost:8080/test?name={{name}}&uid={{id}}
 ```
 
 ```console
-➜ curl localhost:8080/test/3
-{"message":"Hello, World!"}⏎
+➜ curl localhost:8080/test?name=John&uid=3
+{"message":"Hello, John!"}⏎
+
+➜ curl localhost:8080/test?name=John&uid=4
+{
+  "timestamp":"2025-07-20T17:47:40.822+00:00",
+  "path":"/test",
+  "status":404,
+  "error":"Not Found",
+  "requestId":"13881290-8",
+  "message":"..."
+}⏎
 ```
 
-#### GET `/greeting/:name`
+#### GET `/greetings/:name`
+
+It's a case-insensitive route that responds to both `/greetings/:name` and `/GREETINGS/:name`.\
+The `:name` wll be converted to lowercase in the response.
+
+```shell
+curl localhost:8080/greetings/:name
+```
+
+```console
+➜ curl localhost:8080/greetings/John
+{"message":"Hello, john!"}⏎
+
+
+➜ curl localhost:8080/GREETINGS/John
+{"message":"Hello, john!"}⏎
+```
