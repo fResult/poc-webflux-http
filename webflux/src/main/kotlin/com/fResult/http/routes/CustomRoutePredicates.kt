@@ -8,7 +8,7 @@ import reactor.kotlin.core.publisher.toMono
 
 @Configuration
 class CustomRoutePredicates {
-  val handle: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
+  val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
     request.queryParam("name")
       .toMono()
       .map { "Hello, ${it.orElse("World")}" }
