@@ -16,7 +16,7 @@ class CustomRoutePredicatesConfiguration {
   val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
     request.queryParam("name")
       .toMono()
-      .map { "Hello, ${it.orElse("World")}" }
+      .map { "Hello, ${it.orElse(request.pathVariable("name"))}!" }
       .flatMap { ServerResponse.ok().bodyValue(it) }
   }
 
@@ -26,7 +26,7 @@ class CustomRoutePredicatesConfiguration {
       .and(RequestPredicates.accept(MediaType.APPLICATION_JSON))
       .and(::isRequestForValidUid)
 
-    val insensitiveRequestPredicate = i(RequestPredicates.GET("/greeting/{name}"))
+    val insensitiveRequestPredicate = i(RequestPredicates.GET("/greetings/{name}"))
 
     return RouterFunctions.route()
       .add(RouterFunctions.route(peculiarRequestPredicate, handler))
