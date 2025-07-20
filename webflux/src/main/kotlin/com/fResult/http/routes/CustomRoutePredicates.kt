@@ -1,9 +1,10 @@
 package com.fResult.http.routes
 
+import com.fResult.http.routes.CaseInsensitiveRequestPredicates.Companion.i
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.reactive.function.server.HandlerFunction
-import org.springframework.web.reactive.function.server.ServerRequest
-import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.http.MediaType
+import org.springframework.web.reactive.function.server.*
 import reactor.kotlin.core.publisher.toMono
 
 @Configuration
@@ -13,6 +14,20 @@ class CustomRoutePredicates {
       .toMono()
       .map { "Hello, ${it.orElse("World")}" }
       .flatMap { ServerResponse.ok().bodyValue(it) }
+  }
+
+  @Bean
+  fun customRequestPredicates(): RouterFunction<ServerResponse> {
+    val peculiarRequestPredicate = RequestPredicates.GET("/test")
+      .and(RequestPredicates.accept(MediaType.APPLICATION_JSON))
+      .and(::isRequestForValidUid)
+
+    val insensitiveRequestPredicate = i(RequestPredicates.GET("/greeting/{name"))
+
+    return RouterFunctions.route()
+      .add(RouterFunctions.route(peculiarRequestPredicate, handler))
+      .add(RouterFunctions.route(insensitiveRequestPredicate, handler))
+      .build()
   }
 
   private fun isRequestForValidUid(request: ServerRequest): Boolean =
