@@ -14,6 +14,7 @@ class NestedFunctionalEndpointConfiguration {
   @Bean
   fun nested(nestedHandler: NestedHandler): RouterFunction<ServerResponse> {
     val jsonRP = RequestPredicates.accept(MediaType.APPLICATION_JSON)
+      // NOTE: Actually, this is not necessary as the default charset for JSON is UTF-8, since the major browsers support UTF-8 by default.
       .or(RequestPredicates.accept(MediaType(MediaType.APPLICATION_JSON, Charset.forName("UTF-8"))))
 
     val sseRP = RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)
@@ -23,8 +24,7 @@ class NestedFunctionalEndpointConfiguration {
         builder.nest(jsonRP) { nestedBuilder ->
           nestedBuilder.GET("/{pv}", nestedHandler::pathVariable)
           nestedBuilder.GET("", nestedHandler::noPathVariable)
-        }
-        .add(RouterFunctions.route(sseRP, nestedHandler::sse))
+        }.add(RouterFunctions.route(sseRP, nestedHandler::sse))
       }.build()
   }
 }
