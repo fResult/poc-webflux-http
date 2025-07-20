@@ -14,4 +14,9 @@ class CustomRoutePredicates {
       .map { "Hello, ${it.orElse("World")}" }
       .flatMap { ServerResponse.ok().bodyValue(it) }
   }
+
+  private fun isRequestForValidUid(request: ServerRequest): Boolean =
+    request.queryParam("uid")
+      .map(setOf("1", "2", "3")::contains)
+      .orElse(false)
 }
