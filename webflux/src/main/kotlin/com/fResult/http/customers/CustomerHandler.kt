@@ -1,6 +1,7 @@
 package com.fResult.http.customers
 
-import org.reactivestreams.Publisher
+import com.fResult.http.utils.respondNotFound
+import com.fResult.http.utils.respondWithOkStreamBody
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -34,13 +35,8 @@ private inline fun <reified T> listToOkResponse(responseBody: List<T>): Mono<Ser
     .flatMapMany(Flux<T>::fromIterable)
     .let(::respondWithOkStreamBody)
 
-private inline fun <reified T> respondWithOkStreamBody(responseBody: Publisher<T>): Mono<ServerResponse> =
-  ServerResponse.ok().body(responseBody, T::class.java)
-
 private inline fun <reified T : EntityObject> respondWithCreatedResponse(
   pathPrefix: String,
 ): (T) -> Mono<ServerResponse> = {
   ServerResponse.created(URI.create("$pathPrefix/${it.id}")).bodyValue(it)
 }
-
-private fun respondNotFound(): Mono<ServerResponse> = ServerResponse.notFound().build()

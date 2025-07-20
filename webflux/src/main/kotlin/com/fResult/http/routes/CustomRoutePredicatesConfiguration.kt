@@ -1,6 +1,6 @@
 package com.fResult.http.routes
 
-import com.fResult.http.customers.respondWithOkResponse
+import com.fResult.http.utils.respondWithOkResponse
 import com.fResult.http.routes.CaseInsensitiveRequestPredicates.Companion.i
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
