@@ -13,7 +13,7 @@ class NestedHandler {
       .map(::greet)
       .flatMap { ServerResponse.ok().bodyValue(it) }
 
-  fun noPathVariable(request: ServerRequest): Mono<ServerResponse> =
+  fun noPathVariable(ignored: ServerRequest): Mono<ServerResponse> =
     greet().let { ServerResponse.ok().bodyValue(it) }
 
   private fun greet(name: String? = null): Map<String, String> =
