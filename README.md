@@ -12,3 +12,4 @@ learning R2DBC with Spring WebFlux.
 
 - [Webflux Module](./webflux/README.md)
   - [HTTP - Customer](./webflux/src/main/kotlin/com/fResult/http/customers/README.md)
+  - [HTTP - Routes](./webflux/src/main/kotlin/com/fResult/http/routes/README.md)
