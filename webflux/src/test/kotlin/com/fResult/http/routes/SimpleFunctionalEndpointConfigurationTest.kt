@@ -12,6 +12,9 @@ class SimpleFunctionalEndpointConfigurationTest {
   lateinit var webTestClient: WebTestClient
 
   @Test
+  fun `hello john`(): Unit = parameterizeTestString("/hello/John", "Hello, John!")
+
+  @Test
   fun sup(): Unit = parameterizeTestString("/sup", "Hodor!")
 
   private fun parameterizeTestString(path: String, expectedResult: String) {
