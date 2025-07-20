@@ -16,12 +16,15 @@ class NestedFunctionalEndpointConfiguration {
     val jsonRP = RequestPredicates.accept(MediaType.APPLICATION_JSON)
       .or(RequestPredicates.accept(MediaType(MediaType.APPLICATION_JSON, Charset.forName("UTF-8"))))
 
+    val sseRP = RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)
+
     return RouterFunctions.route()
       .nest(RequestPredicates.path("/nested")) { builder ->
         builder.nest(jsonRP) { nestedBuilder ->
           nestedBuilder.GET("/{pv}", nestedHandler::pathVariable)
           nestedBuilder.GET("", nestedHandler::noPathVariable)
         }
+        .add(RouterFunctions.route(sseRP, nestedHandler::sse))
       }.build()
   }
 }
