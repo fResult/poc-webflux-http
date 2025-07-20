@@ -49,3 +49,18 @@ data:#11
 .
 .
 ```
+
+### Custom Route Predicate Endpoints
+
+#### GET `/test`
+
+```shell
+curl localhost:8080/test?uid={{id}}
+```
+
+```console
+➜ curl localhost:8080/test/3
+{"message":"Hello, World!"}⏎
+```
+
+#### GET `/greeting/:name`
