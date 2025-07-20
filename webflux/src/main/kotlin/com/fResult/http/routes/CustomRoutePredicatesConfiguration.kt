@@ -22,7 +22,7 @@ class CustomRoutePredicatesConfiguration {
       .and(RequestPredicates.accept(MediaType.APPLICATION_JSON))
       .and(::isRequestForValidUid)
 
-    val insensitiveRequestPredicate = i(RequestPredicates.GET("/greeting/{name"))
+    val insensitiveRequestPredicate = i(RequestPredicates.GET("/greeting/{name}"))
 
     return RouterFunctions.route()
       .add(RouterFunctions.route(peculiarRequestPredicate, handler))
