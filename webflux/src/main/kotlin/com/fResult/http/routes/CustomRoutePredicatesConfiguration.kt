@@ -1,5 +1,6 @@
 package com.fResult.http.routes
 
+import com.fResult.http.customers.respondWithOkResponse
 import com.fResult.http.routes.CaseInsensitiveRequestPredicates.Companion.i
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,11 +14,11 @@ class CustomRoutePredicatesConfiguration {
     private val HAD_PERMISSION_UID = setOf("1", "2", "3")
   }
 
-  val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
+  val handler: HandlerFunction<ServerResponse> = HandlerFunction { request ->
     request.queryParam("name")
       .toMono()
       .map { "Hello, ${it.orElseGet { request.pathVariable("name") }}!" }
-      .flatMap { ServerResponse.ok().bodyValue(it) }
+      .flatMap(::respondWithOkResponse)
   }
 
   @Bean
