@@ -9,6 +9,10 @@ import reactor.kotlin.core.publisher.toMono
 
 @Configuration
 class CustomRoutePredicatesConfiguration {
+  companion object {
+    private val HAD_PERMISSION_UID = setOf("1", "2", "3")
+  }
+
   val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
     request.queryParam("name")
       .toMono()
@@ -32,6 +36,6 @@ class CustomRoutePredicatesConfiguration {
 
   private fun isRequestForValidUid(request: ServerRequest): Boolean =
     request.queryParam("uid")
-      .map(setOf("1", "2", "3")::contains)
+      .map(HAD_PERMISSION_UID::contains)
       .orElse(false)
 }
