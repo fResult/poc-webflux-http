@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.server.*
 import reactor.kotlin.core.publisher.toMono
 
 @Configuration
-class CustomRoutePredicates {
+class CustomRoutePredicatesConfiguration {
   val handler: HandlerFunction<ServerResponse> = HandlerFunction { request: ServerRequest ->
     request.queryParam("name")
       .toMono()
