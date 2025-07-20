@@ -10,14 +10,24 @@
 
 ### JSON Media Type Response
 
+#### GET `/nested`
+
 ```console
 ➜ curl -H "accept: application/json" http://localhost:8080/nested
-{"message":"Hello, John!"}⏎
+{"message":"Hello, World!"}⏎
 ```
+
+#### GET `/nested/:name`
+
+```bash
+curl -H "accept: application/json" http://localhost:8080/nested/:name
+```
+
+E.g. for `name` as `John`:
 
 ```console
 ➜ curl -H "accept: application/json" http://localhost:8080/nested/John
-{"message":"Hello, World!"}⏎
+{"message":"Hello, John!"}⏎
 ```
 
 ### Event Stream Media Type Response
@@ -35,5 +45,7 @@ data:#8
 data:#9
 data:#10
 data:#11
-...
+.
+.
+.
 ```
