@@ -14,7 +14,7 @@ class SimpleFunctionalEndpointConfiguration {
     RouterFunctions.route()
       .GET("/hello/{name}") { request ->
         request.pathVariable("name").toMono()
-          .map { "Hello, $it" }
+          .map { "Hello, $it!" }
           .flatMap(ServerResponse.ok()::bodyValue)
       }
       .GET("/hodor", handler)

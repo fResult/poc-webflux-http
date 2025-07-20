@@ -15,6 +15,9 @@ class SimpleFunctionalEndpointConfigurationTest {
   fun `hello john`(): Unit = parameterizeTestString("/hello/John", "Hello, John!")
 
   @Test
+  fun hodor(): Unit = parameterizeTestString("/hodor", "Hodor!")
+
+  @Test
   fun sup(): Unit = parameterizeTestString("/sup", "Hodor!")
 
   private fun parameterizeTestString(path: String, expectedResult: String) {
