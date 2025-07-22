@@ -25,6 +25,6 @@ class SimpleFunctionalEndpointConfigurationTest {
       .uri(path)
       .exchange()
       .expectBody(String::class.java)
-      .value {str -> assertEquals(expectedResult, str) }
+      .value { str -> assertEquals(expectedResult, str) }
   }
 }
