@@ -25,20 +25,17 @@ class LowerCaseWebConfiguration {
         .GET("/hi/{name}", ::handle)
         .GET("/hello/{name}", ::handle)
         .filter { req, next ->
-          log.info(".filter(): before")
-          val reply = next.handle(req)
-          log.info(".filter(): after")
-
-          return@filter reply
+          log.info("<1> .filter(): before")
+          next.handle(req).also { log.info("<4> .filter(): after") }
         }
         .before { request ->
-          request.also { log.info(".before") }
+          request.also { log.info("<2> .before") }
             .apply { attributes().put(uuidKey, UUID.randomUUID()) }
         }
         .after { request, response ->
           request.also {
-            log.info(".after()")
-            log.info("UUID: {}", request.attributes()[uuidKey])
+            log.info("<4> .after()")
+            log.info("UUID: {}", request.attributes().getOrElse(uuidKey) { "not found" })
           }.let { response }
         }
         .onError(NullPointerException::class.java) { ex, request ->
