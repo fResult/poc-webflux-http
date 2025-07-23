@@ -30,6 +30,7 @@ curl localhost:8080/rc/customers
 **Body Response:** [`Customer`][CustomerEntity]
 
 **Response Status:**
+
 - `200 OK` (if successful)
 - `404 Not Found` (if customer not found)
 
@@ -96,6 +97,5 @@ curl -X POST localhost:8080/fe/customers \
      -H "Content-Type: application/json" \
      -d '{"name": "Jane Doe"}'
 ```
-
 
 [CustomerEntity]: ./Customer.kt

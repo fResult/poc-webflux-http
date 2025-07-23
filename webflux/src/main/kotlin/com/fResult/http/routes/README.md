@@ -2,11 +2,11 @@
 
 ## Endpoints
 
-| HTTP Method | Root Path | Sub Path (if any)  | Media-Type        |
-|:-----------:|:---------:|:------------------:|-------------------|
-|     GET     | `/nested` |         -          | application/json  |
-|     GET     | `/nested` |         -          | text/event-stream |
-|     GET     | `/nested` |      `/:name`      | application/json  |
+| HTTP Method | Root Path | Sub Path (if any) | Media-Type        |
+|:-----------:|:---------:|:-----------------:|-------------------|
+|     GET     | `/nested` |         -         | application/json  |
+|     GET     | `/nested` |         -         | text/event-stream |
+|     GET     | `/nested` |     `/:name`      | application/json  |
 
 ### JSON Media Type Response
 
