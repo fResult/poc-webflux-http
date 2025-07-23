@@ -1,4 +1,4 @@
-package com.fResult.http
+package com.fResult
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
