@@ -1,8 +1,7 @@
 package com.fResult.http.routes
 
-import com.fResult.http.utils.respondWithOkResponse
 import com.fResult.http.routes.CaseInsensitiveRequestPredicates.Companion.i
-import com.fResult.http.utils.respondWithOkStreamBody
+import com.fResult.utils.respondWithOkStreamBody
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType

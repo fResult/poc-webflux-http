@@ -1,7 +1,7 @@
 package com.fResult.http.customers
 
-import com.fResult.http.utils.respondNotFound
-import com.fResult.http.utils.respondWithOkStreamBody
+import com.fResult.utils.respondNotFound
+import com.fResult.utils.respondWithOkStreamBody
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

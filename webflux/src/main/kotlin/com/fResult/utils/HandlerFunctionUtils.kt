@@ -1,4 +1,4 @@
-package com.fResult.http.utils
+package com.fResult.utils
 
 import org.reactivestreams.Publisher
 import org.springframework.web.reactive.function.server.ServerResponse

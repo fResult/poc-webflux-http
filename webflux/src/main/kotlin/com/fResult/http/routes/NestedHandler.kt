@@ -1,6 +1,6 @@
 package com.fResult.http.routes
 
-import com.fResult.http.utils.IntervalMessageProducer
+import com.fResult.utils.IntervalMessageProducer
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest

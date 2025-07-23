@@ -10,5 +10,5 @@ class LowercaseUriServerRequestWrapper(target: ServerRequest) : ServerRequestWra
 
   override fun path(): String = uri().rawPath
 
-  override fun requestPath(): RequestPath =  RequestPath.parse(path(), null)
+  override fun requestPath(): RequestPath = RequestPath.parse(path(), null)
 }
