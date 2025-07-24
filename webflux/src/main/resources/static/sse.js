@@ -3,7 +3,7 @@
  */
 function log(msg) {
   const messages = document.querySelector('#messages')
-  const elem = document.createElement("div")
+  const elem = document.createElement('div')
   const messageText = document.createTextNode(msg)
   elem.appendChild(messageText)
   messages.append(elem)
