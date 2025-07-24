@@ -30,7 +30,7 @@ function onMessage(ev) {
  * @returns { function(Event): void }
  */
 function parseEventSource(eventSource) {
-  function onError(ev) {
+  return function onError(ev) {
     ev.preventDefault()
     log('closing the EventSource...')
     eventSource.close()
