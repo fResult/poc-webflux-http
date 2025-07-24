@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.HandlerMapping
+import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
 import reactor.core.publisher.SignalType
@@ -15,6 +17,9 @@ class EchoWebSocketConfiguration {
   companion object {
     private val log: Logger = LogManager.getLogger(EchoWebSocketConfiguration::class.java)
   }
+
+  @Bean
+  fun echoHm(): HandlerMapping = SimpleUrlHandlerMapping(mapOf("/ws/echo" to echoWsh()), 10)
 
   @Bean
   fun echoWsh(): WebSocketHandler = WebSocketHandler { session ->
