@@ -19,10 +19,10 @@ class EchoWebSocketConfiguration {
   }
 
   @Bean
-  fun echoHm(): HandlerMapping = SimpleUrlHandlerMapping(mapOf("/ws/echo" to echoWsh()), 10)
+  fun echoHm(): HandlerMapping = SimpleUrlHandlerMapping(mapOf("/ws/echo" to echoWebSocketHandler()), 10)
 
   @Bean
-  fun echoWsh(): WebSocketHandler = WebSocketHandler { session ->
+  fun echoWebSocketHandler(): WebSocketHandler = WebSocketHandler { session ->
     val outbound = IntervalMessageProducer.produce()
       .doOnNext(log::info)
       .map(session::textMessage)
