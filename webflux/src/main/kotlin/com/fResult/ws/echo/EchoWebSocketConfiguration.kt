@@ -34,6 +34,7 @@ class EchoWebSocketConfiguration {
       .doFinally { signalType ->
         log.info("Inbound connection: {}", signalType)
         if (signalType == SignalType.ON_COMPLETE) {
+          log.info("Closing session...")
           session.close().subscribe()
         }
       }.doOnNext(log::info)
