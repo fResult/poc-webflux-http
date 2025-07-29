@@ -22,8 +22,9 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
   @Bean
   fun chatWebSocketHandler(): WebSocketHandler {
     val messagesToBroadcast = Flux.create<Message> { sink ->
-      val submit = Executors.newSingleThreadExecutor()
-        .submit(::broadcastIncomingMessages)
+      val submit = Executors.newSingleThreadExecutor().use {
+        it.submit(::broadcastIncomingMessages)
+      }
 
       sink.onCancel { submit.cancel(true) }
     }.share()
