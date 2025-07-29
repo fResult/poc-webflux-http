@@ -71,7 +71,7 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
     }
   }
 
-  private fun toMessageWithMetadata(sessionID: String, `when`: Instant): (Message) -> Message = {
-    Message(sessionID, it.text, `when`)
+  private fun toMessageWithMetadata(clientID: String, `when`: Instant): (Message) -> Message = {
+    msg -> msg.copy(clientID, `when` = `when`)
   }
 }
