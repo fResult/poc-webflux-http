@@ -31,7 +31,7 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
 
     return WebSocketHandler { session ->
       val sessionID = session.id
-      sessions.put(sessionID, Connection(sessionID, session))
+      sessions[sessionID] = Connection(sessionID, session)
 
       val messagesOffer: (Message) -> Boolean = messages::offer
       val inbound = session.receive()
