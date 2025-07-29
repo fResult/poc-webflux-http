@@ -4,6 +4,8 @@ import com.fResult.utils.o
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.HandlerMapping
+import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
 import reactor.core.publisher.Flux
@@ -18,6 +20,9 @@ import java.util.concurrent.LinkedBlockingQueue
 class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
   val sessions = ConcurrentHashMap<String, Connection>()
   val messages = LinkedBlockingQueue<Message>()
+
+  @Bean
+  fun chatHandlerMapping(): HandlerMapping = SimpleUrlHandlerMapping(mapOf("/ws/chat" to chatWebSocketHandler()), 2)
 
   @Bean
   fun chatWebSocketHandler(): WebSocketHandler {
