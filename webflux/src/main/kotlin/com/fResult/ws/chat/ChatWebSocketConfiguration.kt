@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
 import reactor.core.publisher.Flux
+import reactor.core.publisher.FluxSink
 import reactor.core.publisher.SignalType
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
@@ -20,17 +21,10 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
 
   @Bean
   fun chatWebSocketHandler(): WebSocketHandler {
-    val messagesToBroadcast = Flux.create { sink ->
+    val messagesToBroadcast = Flux.create<Message> { sink ->
       val submit = Executors.newSingleThreadExecutor()
-        .submit {
-          while (true) {
-            try {
-              sink.next(messages.take())
-            } catch (ex: InterruptedException) {
-              throw RuntimeException(ex)
-            }
-          }
-        }
+        .submit(::broadcastIncomingMessages)
+
       sink.onCancel { submit.cancel(true) }
     }.share()
 
@@ -53,6 +47,18 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
         .map(session::textMessage)
 
       session.send(outbound).and(inbound)
+    }
+  }
+
+  private fun broadcastIncomingMessages(): (FluxSink<Message>) -> Unit = { sink ->
+    while (true) {
+      try {
+        // Turn external event source, `messages` into a reactive stream
+        sink.next(messages.take())
+      } catch (ex: InterruptedException) {
+        Thread.currentThread().interrupt()
+        throw RuntimeException(ex)
+      }
     }
   }
 
