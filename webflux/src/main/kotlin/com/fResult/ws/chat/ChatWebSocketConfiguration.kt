@@ -35,7 +35,7 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
 
       val messagesOffer: (Message) -> Boolean = messages::offer
       val inbound = session.receive()
-        .map(::messageToJson o WebSocketMessage::getPayloadAsText)
+        .map(::jsonToMessage o WebSocketMessage::getPayloadAsText)
         .map(messagesOffer o toMessageWithMetadata(sessionID, Instant.now()))
         .doFinally { signalType ->
           if (signalType == SignalType.ON_COMPLETE) {
