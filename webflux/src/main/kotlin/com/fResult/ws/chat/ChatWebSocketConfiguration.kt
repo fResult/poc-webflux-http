@@ -63,9 +63,9 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
     }
   }
 
-  private fun messageToJson(message: String): Message {
+  private fun jsonToMessage(json: String): Message {
     return try {
-      objectMapper.readValue(message, Message::class.java)
+      objectMapper.readValue(json, Message::class.java)
     } catch (ex: Exception) {
       throw IllegalArgumentException("Invalid message format", ex)
     }
