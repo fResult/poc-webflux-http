@@ -39,31 +39,32 @@ class ChatWebSocketConfiguration(private val objectMapper: ObjectMapper) {
       sink.onCancel { submit.cancel(true) }
     }.share()
 
-    return WebSocketHandler { session ->
-      val sessionID = session.id
-      sessions[sessionID] = Connection(sessionID, session)
-      log.info("New WebSocket connection: $sessionID, active sessions: ${sessions.size}")
+    return buildChatSessionHandler(messagesToBroadcast)
+  }
 
-      val messagesOffer: (Message) -> Boolean = messages::offer
-      val inbound = session.receive()
-        .doOnEach { log.info("WebSocket message received: {}", it) }
-        .map(::jsonToMessage o WebSocketMessage::getPayloadAsText)
-        .map(messagesOffer o toMessageWithMetadata(sessionID, Instant.now()))
-        .doOnEach { log.info("messages: {}", messages) }
-        .doFinally { signalType ->
-          log.info("WebSocket connection closed: {}, signalType: {}", sessionID, signalType)
-          if (signalType == SignalType.ON_COMPLETE) {
-            sessions.remove(sessionID)
-          }
+  fun buildChatSessionHandler(messagesToBroadcast: Flux<Message>): WebSocketHandler = WebSocketHandler { session ->
+    val sessionID = session.id
+    sessions[sessionID] = Connection(sessionID, session)
+    log.info("New WebSocket connection: $sessionID, active sessions: ${sessions.size}")
+
+    val messagesOffer: (Message) -> Boolean = messages::offer
+    val inbound = session.receive()
+      .doOnEach { log.info("WebSocket message received: {}", it) }
+      .map(::jsonToMessage o WebSocketMessage::getPayloadAsText)
+      .map(messagesOffer o toMessageWithMetadata(sessionID, Instant.now()))
+      .doOnEach { log.info("messages: {}", messages) }
+      .doFinally { signalType ->
+        log.info("WebSocket connection closed: {}, signalType: {}", sessionID, signalType)
+        if (signalType == SignalType.ON_COMPLETE) {
+          sessions.remove(sessionID)
         }
+      }
 
-      val outbound = messagesToBroadcast
-        .doOnEach { log.info("outgoing message: {}", it) }
-        .map(objectMapper::writeValueAsString)
-        .map(session::textMessage)
+    val outbound = messagesToBroadcast
+      .doOnEach { log.info("outgoing message: {}", it) }
+      .map(session::textMessage o objectMapper::writeValueAsString)
 
-      session.send(outbound).and(inbound)
-    }
+    session.send(outbound).and(inbound)
   }
 
   private fun broadcastIncomingMessages(sink: FluxSink<Message>): () -> Unit = {
