@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
-open class IntervalMessageProducer {
+class IntervalMessageProducer {
   companion object {
     fun produce(count: Int): Flux<String> {
       return produce().take(count.toLong())
