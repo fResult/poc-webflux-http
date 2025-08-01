@@ -8,3 +8,4 @@ pluginManagement {
 rootProject.name = "http"
 
 include("webflux")
+include("servlets")
