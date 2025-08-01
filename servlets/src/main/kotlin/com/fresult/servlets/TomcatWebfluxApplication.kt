@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ServletsApplication
+class TomcatWebfluxApplication
 
 fun main(args: Array<String>) {
-  runApplication<ServletsApplication>(*args)
+  runApplication<TomcatWebfluxApplication>(*args)
 }
