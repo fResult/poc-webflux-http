@@ -7,6 +7,8 @@ import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.coRouter
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 @Configuration
 class GreetingsRouteConfiguration {
@@ -16,9 +18,12 @@ class GreetingsRouteConfiguration {
   }
 }
 
-suspend fun helloFunctional(request: ServerRequest): ServerResponse {
-  val name = request.pathVariable("name")
+private suspend fun helloFunctional(request: ServerRequest): ServerResponse {
+  val greetWithName: (String) -> Mono<Greetings> = { Greetings.greet("functional", it) }
 
-  return Greetings.greet("functional", name)
-    .flatMap(ServerResponse.ok()::bodyValue).awaitSingle()
+  return request.pathVariable("name")
+    .toMono()
+    .flatMap(greetWithName)
+    .flatMap(ServerResponse.ok()::bodyValue)
+    .awaitSingle()
 }
