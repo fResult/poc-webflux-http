@@ -6,11 +6,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class ClientProperties(val http: Http = Http()) {
   data class Http(
     val basic: Basic = Basic(),
-    val rootUrl: String? = null,
+    val rootUrl: String = "localhost:8080",
   ) {
     data class Basic(
-      var username: String? = null,
-      var password: String? = null,
+      var username: String = "MyUser",
+      var password: String = "MyPassword",
     )
   }
 }
