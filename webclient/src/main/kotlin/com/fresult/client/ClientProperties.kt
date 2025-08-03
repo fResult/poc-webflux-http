@@ -3,14 +3,14 @@ package com.fresult.client
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "client")
-data class ClientProperties(val http: Http = Http()) {
-  data class Http(
+class ClientProperties(val http: Http = Http()) {
+  class Http(
+    val rootUrl: String = "http://localhost:8080",
     val basic: Basic = Basic(),
-    val rootUrl: String = "localhost:8080",
   ) {
-    data class Basic(
-      var username: String = "MyUser",
-      var password: String = "MyPassword",
+    class Basic(
+      var username: String? = null,
+      var password: String? = null,
     )
   }
 }
