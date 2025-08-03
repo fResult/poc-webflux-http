@@ -18,12 +18,12 @@ import kotlin.time.toJavaDuration
 @RequestMapping("/greet")
 class HttpController {
   @GetMapping("/single/{name}")
-  fun greetSingle(@PathVariable name: String): Publisher<Greeting> = Mono.just(Greeting(name))
+  fun greetSingle(@PathVariable name: String): Publisher<Greeting> = Mono.just(greeting(name))
 
   @GetMapping("/many/{name}", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
   fun greetMany(@PathVariable name: String): Publisher<Greeting> =
     Flux.fromStream(Stream.generate { greeting(name) })
       .delayElements(1.seconds.toJavaDuration());
 
-  fun greeting(name: String) = Greeting("Hello, $name @ ${Instant.now()}")
+  private fun greeting(name: String) = Greeting("Hello, $name @ ${Instant.now()}")
 }
