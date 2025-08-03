@@ -2,6 +2,7 @@ package com.fresult.service
 
 import com.fresult.client.Greeting
 import org.reactivestreams.Publisher
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +20,7 @@ class HttpController {
   @GetMapping("/single/{name}")
   fun greetSingle(@PathVariable name: String): Publisher<Greeting> = Mono.just(Greeting(name))
 
-  @GetMapping("/many/{name}")
+  @GetMapping("/many/{name}", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
   fun greetMany(@PathVariable name: String): Publisher<Greeting> =
     Flux.fromStream(Stream.generate { greeting(name) })
       .delayElements(1.seconds.toJavaDuration());
