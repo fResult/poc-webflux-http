@@ -7,6 +7,7 @@ import com.fresult.client.Greeting
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
@@ -29,9 +30,24 @@ class HttpControllerTest {
     defaultClient.getSingle(name).also(verifyGreeting(name))
   }
 
+  @Test
+  fun greetMany() {
+    val name = "Stephane"
+    val greetings = defaultClient.getMany(name).take(2)
+    verifyGreetings(greetings, name)
+  }
+
   private fun verifyGreeting(name: String): (Mono<Greeting>) -> Unit = { greeting ->
     StepVerifier
       .create(greeting)
+      .expectNextMatches(containsHello(name))
+      .verifyComplete()
+  }
+
+  private fun verifyGreetings(greeting: Flux<Greeting>, name: String): Unit {
+    StepVerifier
+      .create(greeting)
+      .expectNextMatches(containsHello(name))
       .expectNextMatches(containsHello(name))
       .verifyComplete()
   }
