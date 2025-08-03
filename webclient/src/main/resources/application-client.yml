@@ -8,5 +8,6 @@ spring:
 client:
   http:
     basic:
-      username:
-      password:
+      username: MyUser
+      password: MyPassword
+    root-url: http://localhost:8080
