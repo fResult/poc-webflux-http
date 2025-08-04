@@ -23,11 +23,8 @@ class SecurityConfiguration {
   fun authorization(httpSecurity: ServerHttpSecurity): SecurityFilterChain {
     return httpSecurity
       .httpBasic(Customizer.withDefaults())
-      .authorizeExchange { authorizeExchange ->
-        authorizeExchange
-          .pathMatchers("/greetings").authenticated()
-          .anyExchange().permitAll()
-      }.csrf(ServerHttpSecurity.CsrfSpec::disable)
+      .authorizeExchange(::customAuthorizeExchange)
+      .csrf(ServerHttpSecurity.CsrfSpec::disable)
       .build() as SecurityFilterChain
   }
 
@@ -40,4 +37,11 @@ class SecurityConfiguration {
       .password(password)
       .roles(*roles)
       .build()
+
+  private fun customAuthorizeExchange(
+    authorizeExchange: ServerHttpSecurity.AuthorizeExchangeSpec,
+  ): ServerHttpSecurity.AuthorizeExchangeSpec =
+    authorizeExchange
+      .pathMatchers("/greetings").authenticated()
+      .anyExchange().permitAll()
 }
