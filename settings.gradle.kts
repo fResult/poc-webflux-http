@@ -10,3 +10,4 @@ rootProject.name = "http"
 include("webflux")
 include("servlets")
 include("webclient")
+include("security")
