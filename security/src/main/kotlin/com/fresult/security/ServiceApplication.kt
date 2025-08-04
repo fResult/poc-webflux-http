@@ -7,5 +7,6 @@ import org.springframework.boot.runApplication
 class ServiceApplication
 
 fun main(args: Array<String>) {
+  System.setProperty("spring.profiles.active", "service")
   runApplication<ServiceApplication>(*args)
 }
