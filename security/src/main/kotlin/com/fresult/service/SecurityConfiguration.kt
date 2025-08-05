@@ -7,7 +7,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.server.SecurityWebFilterChain
 
 @Configuration
 class SecurityConfiguration {
@@ -20,12 +20,12 @@ class SecurityConfiguration {
   }
 
   @Bean
-  fun authorization(httpSecurity: ServerHttpSecurity): SecurityFilterChain {
+  fun authorization(httpSecurity: ServerHttpSecurity): SecurityWebFilterChain {
     return httpSecurity
       .httpBasic(Customizer.withDefaults())
       .authorizeExchange(::customAuthorizeExchange)
       .csrf(ServerHttpSecurity.CsrfSpec::disable)
-      .build() as SecurityFilterChain
+      .build()
   }
 
   private fun buildUserDetails(
