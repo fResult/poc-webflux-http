@@ -34,7 +34,7 @@ class SecurityConfiguration {
     vararg roles: String,
   ): UserDetails =
     User.withUsername(username)
-      .password(password)
+      .password("{noop}$password")
       .roles(*roles)
       .build()
 
