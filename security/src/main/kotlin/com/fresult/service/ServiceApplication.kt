@@ -1,4 +1,4 @@
-package com.fresult.security
+package com.fresult.service
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

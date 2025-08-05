@@ -1,4 +1,4 @@
-package com.fresult.security
+package com.fresult.service
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
